@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,11 +46,21 @@ public class MainActivityFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();
-        if (id==R.id.refresh){
+       switch (id){
+           case R.id.refresh:
+               FetchWeatherTask fetchWeatherTask=new FetchWeatherTask();
+               fetchWeatherTask.execute("140401");
+               return true;
+           case R.id.latlan:
+               Toast.makeText(getActivity(),"latlan",Toast.LENGTH_SHORT).show();
+               return true;
+           default:return super.onOptionsItemSelected(item);
+       }
+        /*if (id==R.id.refresh){
             FetchWeatherTask fetchWeatherTask=new FetchWeatherTask();
             fetchWeatherTask.execute();
             return true;}
-        return super.onOptionsItemSelected(item);
+        else if*/
     }
 
     @Override
@@ -66,10 +77,10 @@ public class MainActivityFragment extends Fragment {
 
         return view;
     }
-    public class FetchWeatherTask extends AsyncTask<Void, Void, Void>{
+    public class FetchWeatherTask extends AsyncTask<String, Void, Void>{
 private String Log_Tag=FetchWeatherTask.class.getSimpleName();
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(String... params) {
             // These two need to be declared outside the try/catch
 // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -82,8 +93,12 @@ private String Log_Tag=FetchWeatherTask.class.getSimpleName();
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/weather?q=chandigarh&APPID=748f67056842af763f76d8f9702ddb0b");
-
+                //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/weather?q=chandigarh&APPID=748f67056842af763f76d8f9702ddb0b");
+                StringBuilder tempurl=new StringBuilder("http://api.openweathermap.org/data/2.5/forecast/weather?q=");
+                tempurl.append(params[0]);
+                tempurl.append("&APPID=748f67056842af763f76d8f9702ddb0b");
+                URL url=new URL(tempurl.toString());
+                Log.e(Log_Tag,"final url:"+tempurl.toString());
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -131,4 +146,5 @@ private String Log_Tag=FetchWeatherTask.class.getSimpleName();
             return null;
         }
     }
+
 }

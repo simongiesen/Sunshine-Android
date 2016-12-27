@@ -5,4 +5,9 @@
         android:orderInCategory="100"
         android:title="Refresh"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/latlan"
+        android:orderInCategory="100"
+        android:title="lat/lan"
+        app:showAsAction="never" />
 </menu>
