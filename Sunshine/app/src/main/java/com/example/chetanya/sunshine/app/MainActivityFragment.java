@@ -82,7 +82,7 @@ private String Log_Tag=FetchWeatherTask.class.getSimpleName();
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/weather?q=chandigarh&APPID=748f67056842af763f76d8f9702ddb0b");
+                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/weather?q=chandigarh&APPID=****your key*****");
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
